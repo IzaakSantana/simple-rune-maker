@@ -1,0 +1,26 @@
+{
+  "name": "simple-rune-maker",
+  "version": "1.0.0",
+  "description": "An app to set runes manually in League of Legends, but out of the client. (In case your client is so laggy you can't set your runes)",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start" : "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IzaakSantana/simple-rune-maker.git"
+  },
+  "author": "IzaakSantana",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/IzaakSantana/simple-rune-maker/issues"
+  },
+  "homepage": "https://github.com/IzaakSantana/simple-rune-maker#readme",
+  "dependencies": {
+    "axios": "^0.26.0"
+  },
+  "devDependencies": {
+    "electron": "^17.1.0"
+  }
+}
