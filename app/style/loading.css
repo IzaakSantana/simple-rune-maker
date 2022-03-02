@@ -1,0 +1,18 @@
+body {
+    text-align: center;
+    font-size: x-large;
+    font-weight: bold;
+}
+
+div {
+    width: 300px;
+    height: 100px;
+    margin-top: 200px;
+    background-color: #1A1825;
+    border-style: solid;
+    border-color: #d46401;
+    border-width: 1px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

@@ -3,7 +3,7 @@ const path = require('path')
 
 
 
-function createWindow() {
+function createWindow(windowName) {
     const window = new BrowserWindow({
         width: 800,
         height: 600,
@@ -15,18 +15,17 @@ function createWindow() {
         }
     })
 
-    window.loadFile("./app/pages/index.html")
+    window.loadFile(`./app/pages/${windowName}.html`)
 }
 
+
 app.whenReady().then(() => {
-    console.log("App iniciado")
 
-
-    createWindow()
+    createWindow('loading')
 
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length == 0) {
-            createWindow()
+            createWindow('main')
         }
     })
 })
