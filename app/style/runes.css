@@ -1,3 +1,16 @@
+img {
+    filter: grayscale(1);
+    cursor: pointer;
+}
+
+img:hover {
+    filter: none;
+}
+
+img[data-selected="true"] {
+    filter: none;
+}
+
 .rune-page {
     display: flex;
     flex-direction: column;
