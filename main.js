@@ -41,6 +41,9 @@ app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') app.quit()
 })
 
+ipcMain.on('reload-runes', (event, value) => {
+    event.sender.send('reload-runes', value)
+})
 
 function createWindow() {
     const window = new BrowserWindow({
@@ -67,8 +70,14 @@ function getPortAndPass(cmdline) {
     const passwordRegex = /--remoting-auth-token=([\w-_]+)/
 
     var data = {}
-    data.port = cmdline.match(portRegex)[0].replace("--app-port=", "")
-    data.passwd = cmdline.match(passwordRegex)[0].replace("--remoting-auth-token=", "")
+
+    try {
+        data.port = cmdline.match(portRegex)[0].replace("--app-port=", "")
+        data.passwd = cmdline.match(passwordRegex)[0].replace("--remoting-auth-token=", "")
+    } catch (err) {
+        console.log(err.name)
+        
+    }
     
 
     return data
@@ -80,7 +89,7 @@ function runSystemCmd(cmd) {
 
         return output
     } catch (error) {
-        console.log(error)
+        console.log(`From runSystemCmd: ${error.name}`)
     }
 }
 
@@ -99,7 +108,7 @@ async function getCurrentRunePage(window) {
 
         window.webContents.send('rune-loaded', res.data)
     } catch (error) {
-        console.log(error)
+        window.webContents.send('rune-loaded', 'error')
     }
 }
 
