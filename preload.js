@@ -16,6 +16,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
 ipcRenderer.on('reload-runes', (event, value) => {
     console.log(`Recebendo do main: ${JSON.stringify(value)}`)
     loadRuneIcons(value)
+    
 })
 
 ipcRenderer.on('rune-loaded', (event, value) => {
@@ -23,7 +24,7 @@ ipcRenderer.on('rune-loaded', (event, value) => {
         window.alert('Error! Open league client and try again.')
     } else {
         var txtInput = document.querySelector('#txtInput')
-    
+
         var displayPage = {
             primaryStyleId: value.primaryStyleId,
             subStyleId: value.subStyleId,
@@ -42,7 +43,12 @@ function getRuneObjById(array, id) {
 }
 
 function getSubRunes(mainRuneObj) {
-   return mainRuneObj.slots.slice(1, mainRuneObj.slots.length)
+    if (mainRuneObj) {
+        return mainRuneObj.slots.slice(1, mainRuneObj.slots.length)
+    } else {
+        return null
+    }
+    
 }
 
 function loadRuneIcons (displayPage) {
@@ -110,7 +116,7 @@ function loadMainRunes(className, divElement, selectedId, runesArray) {
 }
 
 
-function loadSubRunes(className, divElement, selectedPerks, runesArray) {   
+function loadSubRunes(className, divElement, selectedPerks, runesArray) {  
     var children = divElement.children
 
     var rows = {
@@ -118,33 +124,56 @@ function loadSubRunes(className, divElement, selectedPerks, runesArray) {
         row1 : children[1],
         row2 : children[2]
     }
+    
+    if (runesArray) {
+    
+        for (var c = 0; c < runesArray.length; c++) {
+            var row = runesArray[c].runes
+    
+            for (var c2 = 0; c2 < row.length; c2++) {
+                var img = imgElement()
+                
+                img.src = row[c2].icon
+                img.alt = defaultAltText
+                img.className = className
 
-    for (var c = 0; c < runesArray.length; c++) {
-        var row = runesArray[c].runes
- 
-        for (var c2 = 0; c2 < row.length; c2++) {
-            var img = imgElement()
-            
-            img.src = row[c2].icon
-            img.alt = defaultAltText
-            img.className = className
+                img.setAttribute('data-id', row[c2].id)
 
-            img.setAttribute('data-id', row[c2].id)
-
-            if (selectedPerks.indexOf(row[c2].id) !== -1) {
-                img.setAttribute('data-selected', 'true')
-            } else {
-                img.setAttribute('data-selected', 'false')
+                if (selectedPerks.indexOf(row[c2].id) !== -1) {
+                    img.setAttribute('data-selected', 'true')
+                } else {
+                    img.setAttribute('data-selected', 'false')
+                }
+                
+                rows[`row${c}`].appendChild(img)
             }
-            
-            rows[`row${c}`].appendChild(img)
+    
         }
- 
-     }
 
-     if (rows.row2.children.length >= 4) {
-         rows.row2.style = 'gap: 9px;'
-     }
+        if (rows.row2.children.length >= 4) {
+            rows.row2.dataset.extra_elem = 'true'
+        } else {
+            rows.row2.dataset.extra_elem = 'false'
+        }
+
+    } else {
+        var rowsDiv = Array.from(divElement.children)
+        var blankRuneSrc = "../images/runes/BlankRune.png"
+
+        rowsDiv.forEach(element => {
+            for (var count = 0; count < 3; count ++) {
+                var img = imgElement()
+            
+                img.src = blankRuneSrc
+                img.alt = defaultAltText
+                img.className = className
+                
+                element.appendChild(img)
+            }
+        })
+
+    }
+    
 }
 
 function loadStats(divElement, selectedStats) {

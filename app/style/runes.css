@@ -16,6 +16,10 @@ img[data-selected="true"] {
     filter: none;
 }
 
+div[data-extra_elem="true"] {
+    gap: 9px;
+}
+
 .shit {
     filter: drop-shadow(0 0 10px red);
 }

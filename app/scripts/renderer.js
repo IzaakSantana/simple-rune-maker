@@ -5,17 +5,41 @@ var subRunes1 = document.querySelector('#sub-runes')
 var subRunes2 = document.querySelector('#sub-runes2')
 var stats = document.querySelector('#stats')
 var txtInput = document.querySelector('#txtInput')
-var icons = document.getElementsByTagName('img')
 
 var runes = window.electronAPI.runes.runesJson
 
-for (var c = 0; c < icons.length; c++) {
-    icons[c].addEventListener('click', iconClicked)
+const mutationConfig = { childList: true, subtree: true }
+const observer = new MutationObserver(mutationCallback)
+
+
+addListeners()
+
+observer.observe(document.body, mutationConfig)
+
+
+function mutationCallback(mutationsList, observer) {
+    for(let mutation of mutationsList) {
+        if (mutation.type === 'childList') {
+            addListeners()
+        }
+    }
+}
+
+function addListeners() {
+    var icons = document.getElementsByTagName('img')
+
+    for (var c = 0; c < icons.length; c++) {
+        icons[c].addEventListener('click', iconClicked)
+    }
 }
 
 function iconClicked(event) {
     var target = event.currentTarget
-    var parentChildren = Array.from(target.parentElement.children)
+    var parent = target.parentElement
+
+    var parentChildren = Array.from(parent.children)
+    var parentId = parent.id
+
 
     if (target.dataset.selected === 'false') {
         for (var c = 0; c < parentChildren.length; c++) {
@@ -23,10 +47,28 @@ function iconClicked(event) {
                 parentChildren[c].dataset.selected = 'false'
             }
         }
-    
+        
         target.dataset.selected = 'true'
-    
-        if (target.parentElement.dataset.type === 'primary') {
+        
+        if (parent.id == mainRunes1.id) {
+            var secondaryTreeSelectedId = getMainSelectedId(Array.from(mainRunes2.children))
+
+            if (secondaryTreeSelectedId == Number(target.dataset.id)) {
+                console.log('A secundária é a mesma que a primária.')
+
+                var secondaryChildren = Array.from(mainRunes2.children)
+
+                secondaryChildren.forEach(element => {
+                    if (element.dataset.id == secondaryTreeSelectedId) {
+                        element.dataset.selected = 'false'
+                    }
+                })
+
+            }
+
+        }
+
+        if (parent.dataset.type === 'primary') {
             var runeObj = getRuneObj()
 
             resetRuneTrees()
@@ -34,15 +76,22 @@ function iconClicked(event) {
             window.electronAPI.runes.reloadRunes(runeObj)
         }
     }
-   
+    
 }
+
 
 function resetRuneTrees() {
     mainRunes1.innerHTML = ""
     mainRunes2.innerHTML = ""
     essentialRunes.innerHTML = ""
-    subRunes1.innerHTML = ""
-    subRunes2.innerHTML = ""
+
+    Array.from(subRunes1.children).forEach((div) => {
+        div.innerHTML = ""
+    })
+
+    Array.from(subRunes2.children).forEach((div) => {
+        div.innerHTML = ""
+    })
 }
 
 function getRuneObj() {
@@ -57,14 +106,17 @@ function getRuneObj() {
     var subSelected
     var selectedPerks = []
 
-    primarySelected = getMainId(main1Children)
-    subSelected = getMainId(main2Children)
-    selectedPerks.push(getMainId(essentialChildren))
+    primarySelected = getMainSelectedId(main1Children)
+    subSelected = getMainSelectedId(main2Children)
+    selectedPerks.push(getMainSelectedId(essentialChildren))
 
-    getSubId(sub1Children, selectedPerks)
-    getSubId(sub2Children, selectedPerks)
-    getSubId(statsChildren, selectedPerks)
+    getSubSelectedId(sub1Children, selectedPerks)
+    getSubSelectedId(sub2Children, selectedPerks)
+    getSubSelectedId(statsChildren, selectedPerks)
 
+    if (!subSelected) {
+        subSelected = 0
+    }
 
     return {
         name: txtInput.value,
@@ -75,7 +127,7 @@ function getRuneObj() {
     }
 }
 
-function getMainId(array) {
+function getMainSelectedId(array) {
     var id
 
     array.forEach(element => {
@@ -87,7 +139,7 @@ function getMainId(array) {
     return id
 }
 
-function getSubId(array, target) {
+function getSubSelectedId(array, target) {
     array.forEach(element => {
         var children = Array.from(element.children)
 
