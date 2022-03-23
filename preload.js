@@ -172,6 +172,7 @@ function loadSubRunes(className, divElement, selectedPerks, runesArray) {
             }
         })
 
+        rowsDiv[2].dataset.extra_elem = 'false'
     }
     
 }
