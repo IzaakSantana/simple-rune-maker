@@ -45,6 +45,10 @@ ipcMain.on('reload-runes', (event, value) => {
     event.sender.send('reload-runes', value)
 })
 
+ipcMain.on('save-runes', (event, value) => {
+    saveRunePage(value)
+})
+
 function createWindow() {
     const window = new BrowserWindow({
         width: 800,
@@ -105,11 +109,30 @@ function getCmdLine() {
 async function getCurrentRunePage(window) {
     try {
         var res = await axios.get(`${baseURL}/lol-perks/v1/currentpage`, { httpsAgent: agent })
-
+        
         window.webContents.send('rune-loaded', res.data)
+
     } catch (error) {
         window.webContents.send('rune-loaded', 'error')
     }
+
+    
+}
+
+async function saveRunePage(data) {
+    try {
+        await axios.delete(`${baseURL}/lol-perks/v1/pages/${data.id}`, {httpsAgent: agent})
+    } catch (error) {
+        console.log(error)
+    }
+    
+    try {
+        var response = await axios.post(`${baseURL}/lol-perks/v1/pages`, data, {httpsAgent: agent})
+    } catch (error) {
+        console.log(error)
+    }
+    
+    
 }
 
 function getRequest(url) {
