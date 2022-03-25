@@ -64,6 +64,7 @@ function loadRuneIcons (displayPage) {
     var subRunes1 = document.querySelector('#sub-runes')
     var subRunes2 = document.querySelector('#sub-runes2')
     var stats = document.querySelector('#stats')
+    var txtOutput = document.querySelector('#txtOutput')
 
     var selectedMainRuneId = displayPage.primaryStyleId
     var selectedMainRune2Id = displayPage.subStyleId
@@ -76,6 +77,8 @@ function loadRuneIcons (displayPage) {
 
     var selectedSubRunes = getSubRunes(mainRuneObj)
     var selectedSubRunes2 = getSubRunes(secondaryRuneObj)
+
+    txtOutput.innerText = ''
 
     loadMainRunes("mainrune-icon", mainRunes1, selectedMainRuneId, runes)
     loadMainRunes("mainrune-icon", mainRunes2, selectedMainRune2Id, runes)

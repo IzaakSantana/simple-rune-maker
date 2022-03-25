@@ -28,7 +28,7 @@ app.whenReady().then(async () => {
 
     var window = createWindow()
 
-    getCurrentRunePage(window)
+    getCurrentRunePage(window.webContents)
 
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length == 0) {
@@ -42,7 +42,11 @@ app.on('window-all-closed', () => {
 })
 
 ipcMain.on('reload-runes', (event, value) => {
-    event.sender.send('reload-runes', value)
+    if (value === 'new') {
+        getCurrentRunePage(event.sender)
+    } else {
+        event.sender.send('reload-runes', value)
+    }  
 })
 
 ipcMain.on('save-runes', (event, value) => {
@@ -106,14 +110,14 @@ function getCmdLine() {
     }
 }
 
-async function getCurrentRunePage(window) {
+async function getCurrentRunePage(webContents) {
     try {
         var res = await axios.get(`${baseURL}/lol-perks/v1/currentpage`, { httpsAgent: agent })
         
-        window.webContents.send('rune-loaded', res.data)
+        webContents.send('rune-loaded', res.data)
 
     } catch (error) {
-        window.webContents.send('rune-loaded', 'error')
+        webContents.send('rune-loaded', 'error')
     }
 
     

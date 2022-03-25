@@ -26,6 +26,9 @@ input {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    text-align: center;
+    font-size: 30px;
+    color: white;
     gap: 15px;
     /*margin-bottom: 70px;*/
 }

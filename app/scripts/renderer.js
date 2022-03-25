@@ -5,7 +5,9 @@ var subRunes1 = document.querySelector('#sub-runes')
 var subRunes2 = document.querySelector('#sub-runes2')
 var stats = document.querySelector('#stats')
 var txtInput = document.querySelector('#txtInput')
-var button = document.querySelector('#saveBtn')
+var txtOutput = document.querySelector('#txtOutput')
+var saveButton = document.querySelector('#saveBtn')
+var reloadButton = document.querySelector('#reloadBtn')
 
 var runes = window.electronAPI.runes.runesJson
 
@@ -17,7 +19,8 @@ var oldRow
 const mutationConfig = { childList: true, subtree: true }
 const observer = new MutationObserver(mutationCallback)
 
-button.addEventListener('click', buttonClicked)
+saveButton.addEventListener('click', saveBtnClicked)
+reloadButton.addEventListener('click', reloadBtnClicked)
 addIconListeners()
 
 observer.observe(document.body, mutationConfig)
@@ -39,7 +42,7 @@ function addIconListeners() {
     })
 }
 
-function buttonClicked() {
+function saveBtnClicked() {
     if (txtInput.value.length <= 0) {
         alert('Pick a name for your rune!')
     } else if (null) {
@@ -48,6 +51,12 @@ function buttonClicked() {
         window.electronAPI.runes.saveRunes(getRuneObj())
     }
     
+}
+
+function reloadBtnClicked() {
+    txtOutput.innerText = 'Loading...'
+    resetRuneTrees()
+    window.electronAPI.runes.reloadRunes('new')
 }
 
 function iconClicked(event) {
