@@ -117,13 +117,7 @@ div[data-extra_elem="true"] {
 
 
 
-#side-panel {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    gap: 20px;
-    /*margin-bottom: 70px;*/
-}
+
 
 /* #box {
     width: 50px;
