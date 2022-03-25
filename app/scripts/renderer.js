@@ -5,14 +5,20 @@ var subRunes1 = document.querySelector('#sub-runes')
 var subRunes2 = document.querySelector('#sub-runes2')
 var stats = document.querySelector('#stats')
 var txtInput = document.querySelector('#txtInput')
+var button = document.querySelector('#saveBtn')
 
 var runes = window.electronAPI.runes.runesJson
+
+// secondary sub runes set up
+var currentRow
+var secondRow
+var oldRow
 
 const mutationConfig = { childList: true, subtree: true }
 const observer = new MutationObserver(mutationCallback)
 
-
-addListeners()
+button.addEventListener('click', buttonClicked)
+addIconListeners()
 
 observer.observe(document.body, mutationConfig)
 
@@ -20,17 +26,28 @@ observer.observe(document.body, mutationConfig)
 function mutationCallback(mutationsList, observer) {
     for(let mutation of mutationsList) {
         if (mutation.type === 'childList') {
-            addListeners()
+            addIconListeners()
         }
     }
 }
 
-function addListeners() {
+function addIconListeners() {
     var icons = document.getElementsByTagName('img')
 
-    for (var c = 0; c < icons.length; c++) {
-        icons[c].addEventListener('click', iconClicked)
+    Array.from(icons).forEach((element) => {
+        element.addEventListener('click', iconClicked)
+    })
+}
+
+function buttonClicked() {
+    if (txtInput.value.length <= 0) {
+        alert('Pick a name for your rune!')
+    } else if (null) {
+
+    } else {
+        window.electronAPI.runes.saveRunes(getRuneObj())
     }
+    
 }
 
 function iconClicked(event) {
@@ -41,21 +58,18 @@ function iconClicked(event) {
     var parentId = parent.id
 
 
-    if (target.dataset.selected === 'false') {
-        for (var c = 0; c < parentChildren.length; c++) {
-            if (parentChildren[c].dataset.selected == 'true') {
-                parentChildren[c].dataset.selected = 'false'
-            }
+    if (target.dataset.selected == 'false' && parent.parentElement.id != subRunes2.id) { 
+    
+        if (rowHasSelected(parent)) {
+            getSelectedElement(parent).dataset.selected = 'false'
         }
-        
+
         target.dataset.selected = 'true'
         
         if (parent.id == mainRunes1.id) {
             var secondaryTreeSelectedId = getMainSelectedId(Array.from(mainRunes2.children))
 
             if (secondaryTreeSelectedId == Number(target.dataset.id)) {
-                console.log('A secundária é a mesma que a primária.')
-
                 var secondaryChildren = Array.from(mainRunes2.children)
 
                 secondaryChildren.forEach(element => {
@@ -75,15 +89,163 @@ function iconClicked(event) {
 
             window.electronAPI.runes.reloadRunes(runeObj)
         }
+    } else {
+        var subChildren = Array.from(subRunes2.children)
+        var selectedCount = getSelectedCount(subChildren)
+        
+        if (rowHasSelected(parent)) {
+            getSelectedElement(parent).dataset.selected = 'false'
+
+            target.dataset.selected = 'true'
+        } else if (currentRow) {
+            oldRow = secondRow
+            secondRow = currentRow
+            currentRow = parent
+
+            if (oldRow) {
+                getSelectedElement(oldRow).dataset.selected = 'false'
+            }
+ 
+            target.dataset.selected = 'true'
+        } else if (selectedCount <= 1) {
+            target.dataset.selected = 'true'
+            currentRow = parent
+
+        } else {
+            subChildren.forEach((row) => {
+                if (!secondRow && rowHasSelected(row)) {
+                    secondRow = row
+                } else if (rowHasSelected(row)) {
+                    oldRow = row
+                }                    
+            })
+
+            if (oldRow) {
+                getSelectedElement(oldRow).dataset.selected = 'false'
+            }
+
+            target.dataset.selected = 'true'
+            currentRow = parent
+        }
     }
-    
+        
+  
+    }
+
+
+function getSelectedElement(row) {
+    var array = Array.from(row.children)
+    var selectedElement
+
+    array.forEach((element) => {
+        if (element.dataset.selected == 'true') {
+            selectedElement = element
+        }
+    })
+
+    return selectedElement
 }
 
+function updateSubRunes(array) {
+    var order = 1
+
+    array.forEach(element => {
+        Array.from(element.children).forEach(child => {
+            if (child.dataset.selected == 'true') {
+                element.dataset.lastclicked = `${order}`
+
+                order++
+            }
+        })
+    });
+}
+
+function unselectInRow(row) {
+    var array = Array.from(row.children)
+
+    array.forEach((element) => {
+        if (element.dataset.selected == 'true') {
+            element.dataset.selected = 'false'
+        }
+    })
+}
+
+function rowHasSelected(row) {
+    var array = Array.from(row.children)
+    var result = false
+
+    array.forEach((element) => {
+        if (element.dataset.selected == 'true') {
+            result = true 
+        }
+    })
+
+    return result
+}
+
+function getSelectedCount(div) {
+    var array = Array.from(div)
+    var count = 0
+
+    array.forEach(element => {
+        var children = Array.from(element.children)
+
+        children.forEach(child => {
+            if (child.dataset.selected == 'true') {
+                count++
+            }
+        })
+    })
+
+    return count
+}
+
+function findSelectedRow(div) {
+    var array = Array.from(div)
+    var selected 
+
+    array.forEach((row) => {
+        Array.from(row).forEach((icon) => {
+            if (icon.dataset.selected == 'true') {
+                selected = row
+            }
+        })
+    })
+
+    return selected
+}
+
+function findLastClicked(array, value) {
+    var found
+
+    array.forEach(element => {
+        if (element.dataset.lastclicked == value) {
+            found = element
+        }
+    })
+
+    return found
+}
+
+function findOtherClicked(array, self, value) {
+    var found
+
+    array.forEach(element => {
+        if (element.dataset.lastclicked == value && element != self) {
+            found = element
+        }
+    })
+
+    return found
+}
 
 function resetRuneTrees() {
     mainRunes1.innerHTML = ""
     mainRunes2.innerHTML = ""
     essentialRunes.innerHTML = ""
+    currentRow = ""
+    secondRow = ""
+    oldRow = ""
 
     Array.from(subRunes1.children).forEach((div) => {
         div.innerHTML = ""
@@ -102,6 +264,8 @@ function getRuneObj() {
     var sub2Children = Array.from(subRunes2.children)
     var statsChildren = Array.from(stats.children)
     
+    var mainSection = document.querySelector('#main')
+
     var primarySelected
     var subSelected
     var selectedPerks = []
@@ -123,7 +287,8 @@ function getRuneObj() {
         primaryStyleId: primarySelected,
         subStyleId: subSelected,
         selectedPerkIds: selectedPerks,
-        current: true
+        current: true,
+        id: mainSection.dataset.pageid
     }
 }
 

@@ -9,6 +9,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
         reloadRunes : (value) => {
             console.log(`Mandando pro main: ${JSON.stringify(value)}`)
             ipcRenderer.send('reload-runes', value)
+        },
+        saveRunes : (value) => {
+            ipcRenderer.send('save-runes', value)
         }
     }
 })
@@ -24,15 +27,18 @@ ipcRenderer.on('rune-loaded', (event, value) => {
         window.alert('Error! Open league client and try again.')
     } else {
         var txtInput = document.querySelector('#txtInput')
+        var mainSection = document.querySelector('#main')
 
         var displayPage = {
             primaryStyleId: value.primaryStyleId,
             subStyleId: value.subStyleId,
             selectedPerkIds: value.selectedPerkIds,
-            name: value.name
+            name: value.name,
+            id: value.id
         }
 
         txtInput.value = displayPage.name
+        mainSection.dataset.pageid = displayPage.id
 
         loadRuneIcons(displayPage)
     }
@@ -142,10 +148,11 @@ function loadSubRunes(className, divElement, selectedPerks, runesArray) {
                 if (selectedPerks.indexOf(row[c2].id) !== -1) {
                     img.setAttribute('data-selected', 'true')
                 } else {
-                    img.setAttribute('data-selected', 'false')
+                    img.setAttribute('data-selected', 'false')     
                 }
-                
+
                 rows[`row${c}`].appendChild(img)
+
             }
     
         }
