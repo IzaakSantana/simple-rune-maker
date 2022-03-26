@@ -48,7 +48,9 @@ function saveBtnClicked() {
     } else if (null) {
 
     } else {
+        txtOutput.innerText = "Saving..."
         window.electronAPI.runes.saveRunes(getRuneObj())
+        txtOutput.innerText = "Runes saved!"
     }
     
 }
@@ -262,6 +264,12 @@ function resetRuneTrees() {
 
     Array.from(subRunes2.children).forEach((div) => {
         div.innerHTML = ""
+    })
+
+    Array.from(stats.children).forEach((row) => {
+        Array.from(row.children).forEach((element) => {
+            element.dataset.selected = 'false'
+        })
     })
 }
 
