@@ -5,6 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
+    "dist" : "build"
   },
   "repository": {
     "type": "git",
@@ -23,4 +24,13 @@
     "electron": "^17.1.0",
     "electron-builder": "^22.14.13"
   },
+  "build" : {
+    "appId" : "com.electron.${name}",
+    "productName" : "Simple Rune Maker",
+    "copyright" : "Copyright © 2022 ${author}",
+    "win": {
+      "target": "NSIS",
+      "icon": "build/icon.ico"
+    }   
+  }
 }
