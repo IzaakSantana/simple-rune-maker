@@ -4,10 +4,7 @@
   "description": "An app to set runes manually in League of Legends, but out of the client. (In case your client is so laggy you can't set your runes)",
   "main": "main.js",
   "scripts": {
-    "test": "electron .",
     "start": "electron .",
-    "package": "electron-forge package",
-    "make": "electron-forge make"
   },
   "repository": {
     "type": "git",
@@ -23,33 +20,7 @@
     "axios": "^0.26.0"
   },
   "devDependencies": {
-    "electron": "^17.1.0"
+    "electron": "^17.1.0",
+    "electron-builder": "^22.14.13"
   },
-  "config": {
-    "forge": {
-      "packagerConfig": {},
-      "makers": [
-        {
-          "name": "@electron-forge/maker-squirrel",
-          "config": {
-            "name": "simple_rune_maker"
-          }
-        },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
-        }
-      ]
-    }
-  }
 }
