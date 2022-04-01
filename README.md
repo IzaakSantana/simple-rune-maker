@@ -12,10 +12,10 @@ Only available for windows x64 for now.
 
 ## How to use:
 1. Open your League Client
-2. Run the simple-rune-maker.exe app
+2. Run the Simple Rune Maker app
 3. Set your runes and have fun!
 
-Important! - After saving the rune page, click reload before saving a new rune or else it won't work. (will be fixed on next release)
+**IMPORTANT!** - After saving the rune page, click reload before saving a new rune or else it won't work. (will be fixed on next release)
 
 ---
 
