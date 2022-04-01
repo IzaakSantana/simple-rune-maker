@@ -1,4 +1,5 @@
-# simple-rune-maker
+![app icon](./display.png)
+# Simple Rune Maker
 An app to set runes manually in League of Legends, but out of the client. (In case your client is so laggy you can't set your runes)
 
 App is on alpha so only some few functions are available: display your selected rune, modify and save it, and reload in case you edited the runes from the client.
