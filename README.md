@@ -1,24 +1,25 @@
 # simple-rune-maker
 An app to set runes manually in League of Legends, but out of the client. (In case your client is so laggy you can't set your runes)
 
-App is on alpha, only some few functions are available: display your selected rune, modify and save it, and reload in case you edited the runes from the client.
+App is on alpha so only some few functions are available: display your selected rune, modify and save it, and reload in case you edited the runes from the client.
+Except some bugs.
 
 Only available for windows x64 for now.
 
 ## Installation instructions
-1. Extract the content of the simple-rune-maker.zip
-2. App is readay to run. Click on simple-rune-maker.exe
+1. Execute the setup you downloaded in (https://github.com/IzaakSantana/simple-rune-maker/releases)[Releases]
+2. An shortcut will appear in your desktop, run it
 
 ## How to use:
 1. Open your League Client
 2. Run the simple-rune-maker.exe app
 3. Set your runes and have fun!
 
-## Visual of the app
+Important! - After saving the rune page, click reload before saving a new rune or else it won't work. (will be fixed on next release)
 
 ---
 
-In case of any bugs or erros, close the simple-rune-maker app and open again.
+In case of any bugs or erros, close the Simple Rune Maker app and open again.
 
 Feel free to report bugs and suggest improvements.
 
