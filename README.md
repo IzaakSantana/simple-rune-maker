@@ -22,5 +22,3 @@ Only available for windows x64 for now.
 In case of any bugs or erros, close the Simple Rune Maker app and open again.
 
 Feel free to report bugs and suggest improvements.
-
-## Visual of the app
