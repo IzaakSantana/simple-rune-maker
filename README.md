@@ -8,7 +8,7 @@ Except some bugs.
 Only available for windows x64 for now.
 
 ## Installation instructions
-1. Execute the setup you downloaded in [Releases](https://github.com/IzaakSantana/simple-rune-maker/releases)
+1. Execute the setup you downloaded from [Releases](https://github.com/IzaakSantana/simple-rune-maker/releases)
 2. A shortcut will appear in your desktop, run it
 
 ## How to use:
