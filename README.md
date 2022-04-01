@@ -8,7 +8,7 @@ Only available for windows x64 for now.
 
 ## Installation instructions
 1. Execute the setup you downloaded in [Releases](https://github.com/IzaakSantana/simple-rune-maker/releases)
-2. An shortcut will appear in your desktop, run it
+2. A shortcut will appear in your desktop, run it
 
 ## How to use:
 1. Open your League Client
