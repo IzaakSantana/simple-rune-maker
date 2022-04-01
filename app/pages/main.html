@@ -30,9 +30,9 @@
             <div id="main-runes2" class="main-runes-style" data-type="primary"></div> 
 
             <div id="sub-runes2" class="sub-runes">
-                <div class="sub-rune-row"></div>
-                <div class="sub-rune-row"></div>
-                <div class="sub-rune-row"></div>
+                <div class="sub-rune-row" data-row="1"></div>
+                <div class="sub-rune-row" data-row="2"></div>
+                <div class="sub-rune-row" data-row="3"></div>
             </div>
 
             <div id="stats" class="stats">
@@ -58,8 +58,10 @@
         </div>
 
         <div id="side-panel">       
+            <p id="txtOutput"></p>
             <input type="text" placeholder="Name" id="txtInput">
-            <input type="button" value="SAVE" class="btn">
+            <input type="button" value="SAVE" class="btn" id="saveBtn">
+            <input type="button" value="RELOAD" class="btn" id="reloadBtn">
         </div>
     </section>
 
