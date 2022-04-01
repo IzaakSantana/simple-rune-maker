@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "dist" : "build"
+    "dist" : "electron-builder build"
   },
   "repository": {
     "type": "git",
@@ -25,9 +25,9 @@
     "electron-builder": "^22.14.13"
   },
   "build" : {
-    "appId" : "com.electron.${name}",
+    "appId" : "IzaakSantana.simple-rune-maker",
     "productName" : "Simple Rune Maker",
-    "copyright" : "Copyright © 2022 ${author}",
+    "copyright" : "Copyright © 2022 Isaac Santana",
     "win": {
       "target": "NSIS",
       "icon": "build/icon.ico"
