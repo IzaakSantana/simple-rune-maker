@@ -60,7 +60,7 @@ function createWindow() {
         resizable: false,
         maximizable: false,
         autoHideMenuBar: true,
-        icon: path.join(__dirname, "app/images/icons/Domination.ico"),
+        icon: path.join(__dirname, "../images/icons/Domination.ico"),
         webPreferences: {
             preload: path.join(__dirname, "preload.js")
         }
