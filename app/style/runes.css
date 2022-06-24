@@ -20,10 +20,6 @@ div[data-extra_elem="true"] {
     gap: 9px;
 }
 
-.shit {
-    filter: drop-shadow(0 0 10px red);
-}
-
 .rune-page {
     display: flex;
     flex-direction: column;
