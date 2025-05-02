@@ -3,7 +3,7 @@
 An app to set runes manually in League of Legends, but out of the client. (In case your client is so laggy you can't set your runes)
 
 App is on alpha so only a few functions are available: display your selected rune, modify and save it, and reload in case you edited the runes from the client.
-Except some bugs.
+Expect some bugs.
 
 Only available for windows x64 for now.
 
